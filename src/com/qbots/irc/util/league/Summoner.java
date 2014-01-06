@@ -1,13 +1,12 @@
 package com.qbots.irc.util.league;
 
-/**
- * Created by Tyler on 1/6/14.
- */
+
 public class Summoner {
     String name;
-    int id,wins,losses,assists,kills,deaths,pentas;
+    int wins,losses,assists,kills,deaths,pentas;
+    long id;
 
-    public Summoner(String name, int id, int wins, int losses, int assists, int kills, int deaths, int pentas) {
+    public Summoner(String name, long id, int wins, int losses, int assists, int kills, int deaths, int pentas) {
         this.name = name;
         this.id = id;
         this.wins = wins;
@@ -22,7 +21,7 @@ public class Summoner {
         return name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -48,6 +47,14 @@ public class Summoner {
 
     public int getPentas() {
         return pentas;
+    }
+
+    public String toString() {
+        return "Name: "+getName()+"\n"+
+                "Total Wins: "+getWins()+"\n"+
+                "Total losses: "+getLosses()+"\n"+
+                "Total Kills: "+getKills()+"\n"+
+                "Total Assits: "+getAssists();
     }
 
 }

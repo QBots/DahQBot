@@ -89,6 +89,10 @@ public class QCommands {
                 }
             } else if(sub[0].equalsIgnoreCase("Stats")) {
                 checkLeague(sub,channel);
+            } else if(sub[0].equalsIgnoreCase("StatsId")) {
+                checkLeagueId(sub,channel);
+            } else if(sub[0].equalsIgnoreCase("kill")) {
+                bot.sendMessage(channel,"I cannot be killed.");
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -105,13 +109,42 @@ public class QCommands {
         for (int i = 0; i < (sub.length - 2); i++) {
             sb.append(sub[i + 2]).append(" ");
         }
+        sb.deleteCharAt(sb.lastIndexOf(" "));
         Summoner summoner = null;
         try {
-            summoner = LeagueApi.getSummoner("na",sb.toString());
+            summoner = new LeagueApi().getSummoner("na",sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(summoner != null) bot.sendMessage(channel,"Player name: "+summoner.getName());
+        if(summoner != null){
+            String[] split = summoner.toString().split("\n");
+            for(int i = 0; i < split.length; i++) {
+                bot.sendMessage(channel,split[i]);
+            }
+            //bot.sendMessage(channel,summoner.toString());
+        }
+        //bot.sendMessage(channel,"Response message: "+player.get("message"));
+    }
+
+    private void checkLeagueId(String[] sub,final String channel) {
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 0; i < (sub.length - 2); i++) {
+            sb.append(sub[i + 2]).append(" ");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(" "));
+        Summoner summoner = null;
+        try {
+            summoner = new LeagueApi().getOtherInfo("n/a",Integer.parseInt(sb.toString()),"na");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(summoner != null){
+            String[] split = summoner.toString().split("\n");
+            for(int i = 0; i < split.length; i++) {
+                bot.sendMessage(channel,split[i]);
+            }
+            //bot.sendMessage(channel,summoner.toString());
+        }
         //bot.sendMessage(channel,"Response message: "+player.get("message"));
     }
 
